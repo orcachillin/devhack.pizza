@@ -5,7 +5,7 @@ export type ComponentLoader = {
 };
 
 export const componentLoaders = [
-    { source: "demos/counter.tsx", load: () => import("../../../client/components/demos/counter.js") },
-    { source: "demos/time.tsx", load: () => import("../../../client/components/demos/time.js") },
+    { source: "pages/admin.tsx", load: () => import("../../../client/components/pages/admin.js") },
     { source: "pages/main.tsx", load: () => import("../../../client/components/pages/main.js") },
+    { source: "shared/Thermometer.tsx", load: () => import("../../../client/components/shared/Thermometer.js") },
 ] satisfies readonly ComponentLoader[];

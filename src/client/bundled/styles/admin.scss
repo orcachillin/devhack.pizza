@@ -1,0 +1,161 @@
+.admin-page {
+	min-height: 100vh;
+	padding: 1rem;
+	background: var(--background-color);
+	color: var(--color);
+}
+
+.admin-shell {
+	width: 100%;
+	max-width: 750px;
+	margin: auto;
+}
+
+.admin-header {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: baseline;
+	gap: 1rem;
+	padding-bottom: 1rem;
+	border-bottom: var(--border-width) solid var(--base-color);
+}
+
+.admin-header-section {
+	color: var(--menu-color);
+}
+
+.admin-intro {
+	margin: 2rem 0;
+
+	> * {
+		margin: 0.25rem 0;
+	}
+
+	p {
+		color: var(--menu-color);
+	}
+}
+
+.admin-claim > p,
+.admin-card-description,
+.admin-claim small,
+.admin-actions {
+	color: var(--menu-color);
+}
+
+.admin-field-grid,
+.admin-payment-grid {
+	display: grid;
+	gap: 1rem;
+}
+
+.admin-form .admin-field input {
+	width: 100%;
+}
+
+.admin-payment-method {
+	display: grid;
+	grid-template-columns: 9rem minmax(0, 1fr);
+	align-items: end;
+	gap: 1rem;
+	margin: 0;
+	padding: 1rem;
+	border: 0;
+	border-left: var(--border-width) solid var(--blockquote-border-color);
+	background: var(--blockquote-background-color);
+
+	.admin-toggle,
+	.admin-field {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.admin-toggle {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-height: 2rem;
+	cursor: pointer;
+
+	input {
+		width: 1rem;
+		height: 1rem;
+		accent-color: var(--base-color);
+	}
+}
+
+.admin-form footer.admin-actions {
+	justify-content: space-between;
+	width: 100%;
+}
+
+.admin-actions-buttons {
+	display: flex;
+	gap: 1rem;
+}
+
+.admin-button-danger {
+	--form-color: var(--error-color);
+	--form-border-color: var(--error-border-color);
+	--form-background-color: var(--error-background-color);
+}
+
+.admin-stakes-table {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+
+	table {
+		min-width: 32rem;
+	}
+
+	td:last-child,
+	th:last-child {
+		text-align: right;
+		font-family: var(--monospace-font-family);
+	}
+}
+
+.admin-stakes-empty {
+	color: var(--menu-color);
+}
+
+.admin-claim small {
+	display: block;
+	margin-top: 1rem;
+}
+
+@media (max-width: 650px) {
+	.admin-page {
+		padding: 0.75rem;
+	}
+
+	.admin-header {
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+		text-align: center;
+
+		> * {
+			justify-self: center;
+		}
+	}
+
+	.admin-payment-method {
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+	}
+
+	.admin-form footer.admin-actions {
+		align-items: stretch;
+		flex-direction: column;
+
+		.admin-actions-buttons,
+		button {
+			width: 100%;
+		}
+
+		.admin-actions-buttons {
+			flex-direction: column;
+		}
+	}
+}

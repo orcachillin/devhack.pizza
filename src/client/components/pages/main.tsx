@@ -1,17 +1,37 @@
-import Time from "../../../util/time.js";
+import Core from "../../../core.js";
+import MainPage from "./main/MainPage.js";
+import { formValue, FormValues } from "../util/form.js";
+import { formatMoney } from "../util/money.js";
+import { ThermometerChannel } from "../shared/Thermometer.js";
 
 export const component = { id: "pages.main" } as const;
-
-// follows path-to-regexp spec
 export const route = "/";
+export const noCache = true;
 
-// all methods are supported, just name the functions as needed
-// default functions can also be used as get methods
 export async function get() {
-	return (
-		<>
-			<h2>nitr</h2>
-			<p>the tiny "framework" for building high speed, data driven, server side rendered web apps</p>
-		</>
-	);
+	return <MainPage />;
+}
+
+export async function post(props: FormValues) {
+	const pizza = Core.services.pizza;
+
+	try {
+		pizza.addStake(formValue(props.paymentMethod), formValue(props.paymentUsername), Number(formValue(props.value)));
+
+		await Core.services.sse.renderComponentToChannel(
+			ThermometerChannel,
+			"thermometer",
+			"shared.thermometer",
+			{ height: pizza.stakeProgress, money: pizza.stakeValue },
+		);
+
+		return <MainPage notice={`Stake added. The total is now $${formatMoney(pizza.stakeValue)}.`} />;
+	} catch (error) {
+		return (
+			<MainPage
+				error={error instanceof Error ? error.message : "Unable to add your stake."}
+				values={props}
+			/>
+		);
+	}
 }

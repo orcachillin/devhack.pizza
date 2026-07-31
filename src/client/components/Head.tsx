@@ -13,7 +13,9 @@ export default async function Head() {
 	return (
 		<>
 			<head>
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<script type="module" src="/__/index.js"></script>
+				<link rel="stylesheet" href="https://assets.devhack.net/styles.css"></link>
 				<link rel="stylesheet" href="/__/index.css"></link>
 				<link rel="icon" href="/_/icon.webp" />
 			</head>

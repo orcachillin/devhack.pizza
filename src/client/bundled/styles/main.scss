@@ -1,0 +1,175 @@
+.main-content {
+	flex: 1;
+	width: 100%;
+}
+
+.main-page {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) clamp(12rem, 18vw, 18rem);
+	width: 100%;
+	min-height: 100vh;
+
+	&-left,
+	&-right {
+		min-width: 0;
+		margin: 0;
+	}
+
+	&-left {
+		display: flex;
+		flex-direction: column;
+		padding: 1rem;
+	}
+
+	&-right {
+		height: 100vh;
+		position: sticky;
+		top: 0;
+	}
+}
+
+.main-header {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: baseline;
+	gap: 1rem;
+	padding-bottom: 1rem;
+	border-bottom: var(--border-width) solid var(--base-color);
+}
+
+.stake-panel {
+	width: min(100%, 750px);
+	margin: auto;
+
+	hgroup p,
+	.stake-total span {
+		color: var(--menu-color);
+	}
+}
+
+.stake-form {
+	max-width: 30rem;
+}
+
+.stake-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 30rem) minmax(12rem, 1fr);
+	align-items: start;
+	gap: 2rem;
+	margin-top: 2rem;
+}
+
+.stake-total {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	max-width: 30rem;
+	margin-top: 2rem;
+	padding-top: 1rem;
+	border-top: var(--border-width) solid var(--blockquote-border-color);
+
+	strong {
+		font-family: var(--monospace-font-family);
+	}
+}
+
+.stake-info {
+	padding: 1rem;
+	background: var(--blockquote-background-color);
+	border-left: var(--border-width) solid var(--blockquote-border-color);
+
+	h2 {
+		margin: 0 0 1rem;
+		font-size: 1rem;
+	}
+
+	dl {
+		margin: 0;
+	}
+
+	dl > div {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr);
+		gap: 1rem;
+		padding: 0.25rem 0;
+	}
+
+	dt {
+		color: var(--menu-color);
+	}
+
+	dd {
+		margin: 0;
+		text-align: right;
+		font-family: var(--monospace-font-family);
+		overflow-wrap: anywhere;
+	}
+}
+
+.stake-warning {
+	margin: 1rem 0 0;
+	padding-top: 1rem;
+	border-top: var(--border-width) solid var(--blockquote-border-color);
+	font-size: 0.875rem;
+	font-weight: bold;
+}
+
+@media (max-width: 1000px) {
+	.stake-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.stake-info {
+		max-width: 30rem;
+	}
+}
+
+@media (max-width: 700px) {
+	.main-page {
+		grid-template-columns: minmax(0, 1fr);
+
+		&-left {
+			min-height: 100svh;
+		}
+
+		&-right {
+			position: relative;
+			top: auto;
+			height: 32rem;
+			border-top: var(--border-width) solid var(--blockquote-border-color);
+		}
+	}
+
+	.stake-panel {
+		margin: 2rem auto;
+	}
+}
+
+@media (max-width: 500px) {
+	.main-page-left {
+		padding: 0.75rem;
+	}
+
+	.main-header {
+		grid-template-columns: 1fr;
+		gap: 0.5rem;
+		text-align: center;
+
+		> * {
+			justify-self: center;
+		}
+	}
+
+	.stake-total {
+		align-items: baseline;
+	}
+
+	.stake-info dl > div {
+		grid-template-columns: 1fr;
+		gap: 0;
+
+		dd {
+			text-align: left;
+		}
+	}
+}

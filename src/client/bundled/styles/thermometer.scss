@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css?family=Jaldi&display=swap");
+
+$thermometer-height: 80%;
+$thermometer-background: #38383f;
+$thermometer-border: #2a2a2e;
+$thermometer-border-width: 9px;
+$bulb-size: 50px;
+$temperature-cold: #3dcadf;
+$temperature-hot: #f17a65;
+$tooltip-background: rgba(0, 0, 0, 0.7);
+
+.thermometer-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.thermometer {
+  width: 25px;
+  height: $thermometer-height;
+  background: $thermometer-background;
+  position: relative;
+  border: $thermometer-border-width solid $thermometer-border;
+  border-radius: 20px;
+  z-index: 1;
+  margin-bottom: $bulb-size;
+
+  &:before,
+  &:after {
+    position: absolute;
+    content: "";
+    border-radius: 50%;
+  }
+
+  &:before {
+    width: 100%;
+    height: 34px;
+    bottom: $thermometer-border-width;
+    background: $thermometer-background;
+    z-index: -1;
+  }
+
+  &:after {
+    transform: translateX(-50%);
+    width: $bulb-size;
+    height: $bulb-size;
+    background-color: $temperature-cold;
+    bottom: -($bulb-size - $thermometer-border-width);
+    border: $thermometer-border-width solid $thermometer-border;
+    z-index: -3;
+    left: 50%;
+  }
+
+  &-goals {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  &-goal {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    border-top: 2px solid rgba(255, 255, 255, 0.65);
+  }
+
+  &-goal-label {
+    position: absolute;
+    top: 0;
+    right: calc(100% + 1rem);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: var(--color, white);
+    font-family: var(--monospace-font-family, monospace);
+    font-size: 0.72rem;
+    line-height: 1.2;
+    white-space: nowrap;
+    transform: translateY(-50%);
+
+    span {
+      color: var(--menu-color, #aaa);
+    }
+  }
+
+  &-temperature {
+    bottom: 0;
+    background: linear-gradient($temperature-hot, $temperature-cold) no-repeat bottom;
+    width: 100%;
+    border-radius: 20px;
+    background-size: 100% 100%;
+    transition: all 0.2s ease-in-out;
+
+    &,
+    &:before,
+    &:after {
+      position: absolute;
+    }
+
+    &:before {
+      content: attr(data-value);
+      background: $tooltip-background;
+      color: white;
+      z-index: 2;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 1em;
+      line-height: 1;
+      transform: translateY(50%);
+      left: calc(100% + 1em / 1.5);
+      top: calc(-1em + 5px - 5px * 2);
+    }
+
+    &:after {
+      content: "";
+      border-top: 0.4545454545em solid transparent;
+      border-bottom: 0.4545454545em solid transparent;
+      border-right: 0.6666666667em solid $tooltip-background;
+      left: 100%;
+      top: calc(-1em / 2.2 + 5px);
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .thermometer {
+    height: 75%;
+
+    &-goal-label {
+      right: calc(100% + 0.75rem);
+      font-size: 0.65rem;
+    }
+  }
+}

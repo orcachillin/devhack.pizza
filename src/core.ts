@@ -2,6 +2,7 @@ import Database from "./database/index.js";
 import CacheService from "./services/cache/cacheService.js";
 import ClientService from "./services/client/clientService.js";
 import ContextService from "./services/context/contextService.js";
+import PizzaService from "./services/pizza/pizzaService.js";
 import SettingsService from "./services/settings/settingsService.js";
 import SSEService from "./services/sse/sseService.js";
 import WebService from "./services/web/webService.js";
@@ -22,6 +23,7 @@ export default class Core {
     public static readonly serviceList = [
         new CacheService(),
         new SettingsService(),
+        new PizzaService(),
         new WebService(),
         new ContextService(),
         new SSEService(),
