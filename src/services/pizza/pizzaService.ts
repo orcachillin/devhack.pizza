@@ -221,6 +221,8 @@ export default class PizzaService extends AbstractService<"pizza"> {
     }
 
     public async reset(): Promise<void> {
+        const previousBuyerSessionId = this.buyerSession?.id
+
         this.sliceCount = PizzaService.DEFAULT_SLICE_COUNT
         this.buyerName = ""
         this.buyerSession = undefined
