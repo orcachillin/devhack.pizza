@@ -160,6 +160,28 @@ export default class SSEService extends AbstractService<"sse"> {
         this.sendToChannelInContext(channelId, event, async () => Core.services.client.componentCache.render(componentId, props))
     }
 
+    public async renderComponentToSession(
+        channelId: string | SSEChannel,
+        sessionId: string,
+        event: string,
+        componentId: string,
+        props: ComponentRenderProperties = { method: "EVENT" }
+    ): Promise<void> {
+        const channel = this.getChannel(channelId)
+        const session = SessionManager.cache.get(sessionId)
+        if (!channel?.clients[sessionId]?.length || !session) return
+
+        const store = Core.services.context.open()
+        store.method = "EVENT"
+        store.path = `/events/${channel.id}`
+        store.session = session
+
+        await ContextService.als.run(store, async () => {
+            const rendered = await Core.services.client.componentCache.render(componentId, props)
+            channel.sendToSession(sessionId, event, rendered)
+        })
+    }
+
     public broadcast(event: string, data: string): void {
         for (const channel of this.channels) {
             channel.send(event, data);

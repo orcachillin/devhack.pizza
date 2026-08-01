@@ -1,6 +1,6 @@
-import PizzaService, { ConfigurablePaymentMethod } from "../../../../services/pizza/pizzaService.js";
+import PizzaService, { ConfigurablePaymentMethod } from "../../../services/pizza/pizzaService.js";
 
-export default function PaymentInfoRow(props: { method: ConfigurablePaymentMethod; username: string }) {
+export default function BuyerPaymentInfoRow(props: { method: ConfigurablePaymentMethod; username: string }) {
 	return (
 		<div>
 			<dt>{PizzaService.PAYMENT_METHOD_PRESETS[props.method].name}</dt>

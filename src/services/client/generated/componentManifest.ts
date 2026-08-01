@@ -7,5 +7,8 @@ export type ComponentLoader = {
 export const componentLoaders = [
     { source: "pages/admin.tsx", load: () => import("../../../client/components/pages/admin.js") },
     { source: "pages/main.tsx", load: () => import("../../../client/components/pages/main.js") },
+    { source: "shared/AdminStakes.tsx", load: () => import("../../../client/components/shared/AdminStakes.js") },
+    { source: "shared/BuyerPaymentInfo.tsx", load: () => import("../../../client/components/shared/BuyerPaymentInfo.js") },
+    { source: "shared/StakeTotal.tsx", load: () => import("../../../client/components/shared/StakeTotal.js") },
     { source: "shared/Thermometer.tsx", load: () => import("../../../client/components/shared/Thermometer.js") },
 ] satisfies readonly ComponentLoader[];

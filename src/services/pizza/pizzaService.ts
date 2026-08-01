@@ -231,12 +231,32 @@ export default class PizzaService extends AbstractService<"pizza"> {
 
         this.logger.log("Pizza run reset")
 
-        await Core.services.sse?.renderComponentToChannel(
-            "thermometer",
-            "thermometer",
-            "shared.thermometer",
-            { height: this.stakeProgress, money: this.stakeValue }
-        )
+        await Promise.all([
+            Core.services.sse?.renderComponentToChannel(
+                "thermometer",
+                "thermometer",
+                "shared.thermometer",
+                { height: this.stakeProgress, money: this.stakeValue }
+            ),
+            Core.services.sse?.renderComponentToChannel(
+                "stake-total",
+                "stake-total",
+                "shared.stake-total"
+            ),
+            Core.services.sse?.renderComponentToChannel(
+                "buyer-payment-info",
+                "buyer-payment-info",
+                "shared.buyer-payment-info"
+            ),
+            previousBuyerSessionId
+                ? Core.services.sse?.renderComponentToSession(
+                    "admin-stakes",
+                    previousBuyerSessionId,
+                    "admin-stakes",
+                    "shared.admin-stakes"
+                )
+                : Promise.resolve()
+        ])
     }
 
     public async destroy(): Promise<void> {

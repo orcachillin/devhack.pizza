@@ -1,8 +1,8 @@
-import Core from "../../../../core.js";
-import PizzaService from "../../../../services/pizza/pizzaService.js";
-import { formatMoney } from "../../util/money.js";
+import Core from "../../../core.js";
+import PizzaService from "../../../services/pizza/pizzaService.js";
+import { formatMoney } from "../util/money.js";
 
-export default function StakeTableContent() {
+export default function AdminStakeTableContent() {
 	const pizza = Core.services.pizza;
 
 	return (
@@ -11,7 +11,7 @@ export default function StakeTableContent() {
 			<tbody>
 				{pizza.stakes.map(stake => (
 					<tr>
-						<td>{stake.paymentMethod === "cash" ? `hand to ${stake.paymentUsername}` : PizzaService.formatPaymentUsername(stake.paymentMethod, stake.paymentUsername)}</td>
+						<td>{stake.paymentMethod === "cash" ? stake.paymentUsername : PizzaService.formatPaymentUsername(stake.paymentMethod, stake.paymentUsername)}</td>
 						<td>{PizzaService.PAYMENT_METHOD_PRESETS[stake.paymentMethod].name}</td>
 						<td>${formatMoney(stake.value)}</td>
 					</tr>

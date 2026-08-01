@@ -1,6 +1,7 @@
 import Core from "../../../core.js";
 import { Session } from "../../../database/entities/Session.entity.js";
 import PizzaService, { ConfigurablePaymentMethod } from "../../../services/pizza/pizzaService.js";
+import { BuyerPaymentInfoChannel } from "../shared/BuyerPaymentInfo.js";
 import { formValue, FormValues } from "../util/form.js";
 import AdminPage from "./admin/AdminPage.js";
 
@@ -23,6 +24,7 @@ export async function post(props: FormValues) {
 	try {
 		if (formValue(props.action) === "claim") {
 			pizza.claimOwnership(session, formValue(props.buyerName));
+			await broadcastBuyerPaymentInfo();
 			return <AdminPage notice="Ownership claimed. You can now update the pizza settings." />;
 		}
 
@@ -39,15 +41,19 @@ export async function post(props: FormValues) {
 				sliceCount: Number(formValue(props.sliceCount)),
 				enabledPaymentMethods,
 			});
-			await Core.services.sse.renderComponentToChannel("thermometer", "thermometer", "shared.thermometer", {
-				height: pizza.stakeProgress,
-				money: pizza.stakeValue,
-			});
+			await Promise.all([
+				Core.services.sse.renderComponentToChannel("thermometer", "thermometer", "shared.thermometer", {
+					height: pizza.stakeProgress,
+					money: pizza.stakeValue,
+				}),
+				broadcastBuyerPaymentInfo(),
+			]);
 			return <AdminPage notice="Pizza settings saved." />;
 		}
 
 		if (formValue(props.action) === "unclaim") {
 			pizza.unclaimOwnership(session);
+			await broadcastBuyerPaymentInfo();
 			return <AdminPage notice="Ownership released. Anyone can now claim this pizza run." />;
 		}
 
@@ -60,4 +66,12 @@ export async function post(props: FormValues) {
 			/>
 		);
 	}
+}
+
+async function broadcastBuyerPaymentInfo() {
+	await Core.services.sse.renderComponentToChannel(
+		BuyerPaymentInfoChannel,
+		"buyer-payment-info",
+		"shared.buyer-payment-info",
+	);
 }
