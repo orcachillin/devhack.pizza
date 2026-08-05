@@ -5,6 +5,7 @@ import { ms } from "../../util/time.js";
 
 const sessionExpire = ms("1 week")
 const sessionTouch = ms("5 minutes")
+const sessionUserAgentLength = 128
 
 export default class SessionManager {
 
@@ -15,7 +16,7 @@ export default class SessionManager {
 
     public static async genSession(userAgent: string): Promise<Session> {
         const session = new Session();
-        session.userAgent = userAgent;
+        session.userAgent = userAgent.slice(0, sessionUserAgentLength);
 
         await Core.database.em.persist(session).flush();
         this.cache.set(session.id, session);
@@ -24,6 +25,8 @@ export default class SessionManager {
     }
 
     public static async checkSession(session: string, userAgent?: string): Promise<Session | undefined> {
+
+        userAgent = userAgent?.slice(0, sessionUserAgentLength);
 
         if (!userAgent) {
             this.logger.warn("incoming request has no user agent... maybe the proxy is set up incorrectly?")
